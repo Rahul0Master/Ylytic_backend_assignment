@@ -3,7 +3,9 @@ from datetime import datetime
 import requests
 
 app = Flask(__name__)
+
 REST_API_URL='https://app.ylytic.com/ylytic/test'
+
 response = requests.get(REST_API_URL)
 comments = response.json().get('comments', [])
 
@@ -35,6 +37,7 @@ def search_comments():
         comment_date = date_parser(comment['at'])
         at_from_date = parse_date(at_from) if at_from else None
         at_to_date = parse_date(at_to) if at_to else None
+        
         if (not search_author or search_author.lower() in comment['author'].lower()) \
             and \
            (not at_from or comment_date >= at_from_date) \
