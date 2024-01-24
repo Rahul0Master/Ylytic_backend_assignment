@@ -3,13 +3,15 @@ from datetime import datetime
 import requests
 
 app = Flask(__name__)
-API_URL='https://app.ylytic.com/ylytic/test'
-response = requests.get(API_URL)
+REST_API_URL='https://app.ylytic.com/ylytic/test'
+response = requests.get(REST_API_URL)
 comments = response.json().get('comments', [])
 
+# Parse date in the format of "date-month-year" from the route given by users
 def parse_date(date_str):
     return datetime.strptime(date_str, "%d-%m-%Y").strftime("%Y-%m-%d")
 
+# Parse the date from the comments given in the REST API URL in the format of "day, date month year hour:minute:second timezone"
 def date_parser(date_str):
     return datetime.strptime(date_str, "%a, %d %b %Y %H:%M:%S %Z").strftime("%Y-%m-%d")
 
